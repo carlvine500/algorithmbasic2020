@@ -96,6 +96,37 @@ public class Code03_StoneMerge {
 		return arr;
 	}
 
+    public int minCost_dp2(int[] stones) {
+        int N = stones.length;
+        int[] prefixSum = sum(stones);
+        int[][] dp = new int[N][N];
+        int[][] best = new int[N][N];
+        for (int L = N - 2; L >= 0; L--) {
+            for (int R = L + 1; R <= N - 1; R++) {
+                // System.out.println(L + "-" + R);
+                int cost = Integer.MAX_VALUE;
+                int down = best[L][R - 1];
+                int up = best[L + 1][R];
+                // 无效解的best边界范围设置成最大
+                if (down == 0 && up == 0) {
+                    down = L;
+                    up = R - 1;
+                }
+                for (int k = down; k <= up; k++) {
+                    int left = dp[L][k];
+                    int right = dp[k + 1][R];
+                    int curCost = left + right;
+                    if (curCost < cost) {
+                        cost = curCost;
+                        best[L][R] = k;
+                    }
+                }
+                dp[L][R] = cost + w(prefixSum, L, R);
+            }
+        }
+        return dp[0][N - 1];
+    }
+
 	public static void main(String[] args) {
 		int N = 15;
 		int maxValue = 100;
