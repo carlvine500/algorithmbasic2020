@@ -96,14 +96,13 @@ public class Code03_StoneMerge {
 		return arr;
 	}
 
-	public int minCost_dp2(int[] stones) {
+	public int min4(int[] stones) {
 	    int N = stones.length;
 	    int[] prefixSum = sum(stones);
 	    int[][] dp = new int[N][N];
 	    int[][] best = new int[N][N];
 	    for (int L = N - 2; L >= 0; L--) {
 	        for (int R = L + 1; R <= N - 1; R++) {
-	            // System.out.println(L + "-" + R);
 	            int cost = Integer.MAX_VALUE;
 	            int down = best[L][R - 1];
 	            int up = best[L + 1][R];
